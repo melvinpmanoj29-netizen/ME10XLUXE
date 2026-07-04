@@ -11,10 +11,8 @@ import {
     FaMoon,
     FaBars,
     FaTimes,
-    FaHome,
     FaChevronRight,
     FaTruck,
-    FaCog,
     FaClipboardList
 } from "react-icons/fa";
 import { useState, useEffect } from "react";
