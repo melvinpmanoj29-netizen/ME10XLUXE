@@ -1,5 +1,22 @@
 import { Link, useNavigate } from "react-router-dom";
-import { FaShoppingCart, FaUserCircle, FaSearch, FaChevronDown, FaBox, FaSignOutAlt, FaShieldAlt, FaSun, FaMoon } from "react-icons/fa";
+import {
+    FaShoppingCart,
+    FaUserCircle,
+    FaSearch,
+    FaChevronDown,
+    FaBox,
+    FaSignOutAlt,
+    FaShieldAlt,
+    FaSun,
+    FaMoon,
+    FaBars,
+    FaTimes,
+    FaHome,
+    FaChevronRight,
+    FaTruck,
+    FaCog,
+    FaClipboardList
+} from "react-icons/fa";
 import { useState, useEffect } from "react";
 import { getCart } from "../../services/cartService";
 
@@ -7,9 +24,10 @@ function Navbar() {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
   const [cartCount, setCartCount] = useState(0);
-
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const token = localStorage.getItem("token");
   const user = JSON.parse(localStorage.getItem("user") || "null");
+  const mobileMenuItem ="flex items-center justify-between rounded-xl px-4 py-3 transition-all duration-200 hover:bg-gray-100 dark:hover:bg-slate-800 active:scale-[0.98]";
 
   // State for dark mode theme
   const [isDark, setIsDark] = useState(() => {
@@ -86,7 +104,15 @@ function Navbar() {
   return (
     <nav className="sticky top-0 z-50 bg-[#2874F0] dark:bg-[#131b2e] text-white shadow-md border-b dark:border-[#24324f] transition-colors duration-200">
       <div className="max-w-[1240px] mx-auto px-4 flex h-[64px] items-center gap-4 md:gap-8">
-        
+
+      {/* Mobile Menu Toggle Button */}
+      <button
+        className="md:hidden text-white hover:text-[#FFE500] focus:outline-none"
+        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+      >
+        {mobileMenuOpen ? <FaTimes size={20} /> : <FaBars size={20} />}
+      </button>
+
         {/* Brand Logo */}
         <Link to="/" className="flex flex-col min-w-fit leading-tight select-none">
           <span className="text-2xl font-black tracking-tight italic font-outfit text-white">
@@ -96,6 +122,22 @@ function Navbar() {
             Explore <span className="text-[#FFE500] font-bold">Plus ✦</span>
           </span>
         </Link>
+        <div className="flex items-center gap-3 ml-auto md:hidden">
+
+        <Link
+          to="/cart"
+          className="relative text-white"
+        >
+          <FaShoppingCart size={22} />
+
+          {cartCount > 0 && (
+            <span className="absolute -top-2 -right-2 bg-[#FB641B] text-white rounded-full text-[10px] w-5 h-5 flex items-center justify-center">
+              {cartCount}
+            </span>
+          )}
+        </Link>
+
+      </div>
 
         {/* Search Bar - Center */}
         <form onSubmit={handleSearchSubmit} className="flex-1 max-w-[600px] relative hidden sm:flex">
@@ -115,7 +157,7 @@ function Navbar() {
         </form>
 
         {/* Navigation links & Profile */}
-        <div className="flex items-center gap-4 md:gap-6 ml-auto text-sm">
+        <div className="hidden md:flex items-center gap-4 lg:gap-6 ml-auto text-sm">
           
           <Link
             to="/products"
@@ -203,6 +245,8 @@ function Navbar() {
       </div>
       
       {/* Mobile Search Bar - displayed only on mobile below the main header */}
+
+
       <div className="px-4 pb-3 pt-1 block sm:hidden bg-[#2874F0] dark:bg-[#131b2e]">
         <form onSubmit={handleSearchSubmit} className="flex relative w-full">
           <input
@@ -219,6 +263,168 @@ function Navbar() {
             <FaSearch size={14} />
           </button>
         </form>
+      </div>
+      {/* Mobile Menu Overlay */}
+      {mobileMenuOpen && (
+        <div
+          className="fixed inset-0 bg-black/50 z-40 md:hidden"
+          onClick={() => setMobileMenuOpen(false)}
+        />
+      )}
+
+      {/* Mobile Drawer */}
+      <div
+        className={`fixed top-0 left-0 h-full w-72 bg-white dark:bg-[#131b2e] shadow-2xl z-50 transform transition-transform duration-300 md:hidden ${
+          mobileMenuOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
+      >
+        {/* Header */}
+        <div className="flex items-start justify-between px-6 py-5 border-b dark:border-[#24324f]">
+          <div>
+           <h2 className="text-2xl font-bold tracking-tight text-[#2874F0] dark:text-white">
+              ME10XLUXE
+          </h2>
+
+          <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+              Premium Shopping
+          </p>
+          </div>
+
+            <button
+              onClick={() => setMobileMenuOpen(false)}
+              aria-label="Close menu"
+              className="
+                  flex
+                  items-center
+                  justify-center
+                  w-10
+                  h-10
+                  rounded-full
+                  bg-gray-100
+                  dark:bg-slate-800
+                  text-gray-700
+                  dark:text-gray-200
+                  transition-all
+                  duration-200
+                  hover:bg-gray-200
+                  dark:hover:bg-slate-700
+                  hover:rotate-90
+                  active:scale-95
+              "
+            >
+              <FaTimes size={18} />
+            </button>
+        </div>
+
+        {/* Navigation */}
+        <div className="flex flex-col p-4 gap-2">
+
+          {/*Products Link*/}
+
+         <Link
+              to="/products"
+              onClick={() => setMobileMenuOpen(false)}
+              className={mobileMenuItem}
+          >
+              <div className="flex items-center gap-3">
+                  <FaBox className="text-blue-500" />
+                  <span>Products</span>
+              </div>
+
+              <FaChevronRight
+                  className="text-gray-400"
+                  size={14}
+              />
+          </Link>
+
+          {/* Orders Link */}
+
+          {token && (
+            <>
+              <div className="flex items-center gap-3">
+                  <FaClipboardList className="text-emerald-500" />
+                  <span>My Orders</span>
+              </div>
+
+              {/*Admin Dashboard*/} 
+
+              {user?.role === "Admin" && (
+               <div className="flex items-center gap-3">
+                    <FaShieldAlt className="text-red-500" />
+                    <span>Admin Dashboard</span>
+                </div>
+              )}
+
+              {/*deliveries link*/}
+
+              {user?.role === "DeliveryAgent" && (
+                <div className="flex items-center gap-3">
+                    <FaTruck className="text-orange-500" />
+                    <span>Deliveries</span>
+                </div>
+              )}
+            </>
+          )}
+
+          {/* Theme */}
+
+          <button
+              onClick={() => setIsDark(!isDark)}
+              className={mobileMenuItem}
+          >
+              <div className="flex items-center gap-3">
+
+                  {isDark ? (
+                      <FaMoon className="text-indigo-400"/>
+                  ) : (
+                      <FaSun className="text-yellow-400"/>
+                  )}
+
+                  <span>
+                      {isDark ? "Dark Mode" : "Light Mode"}
+                  </span>
+
+              </div>
+
+              <FaChevronRight
+                  className="text-gray-400"
+                  size={14}
+              />
+          </button>
+
+          <div className="border-t border-gray-200 dark:border-slate-700 my-4" />
+          {token ? (
+            <button
+              onClick={handleLogout}
+              className="mt-3 rounded-lg bg-red-500 hover:bg-red-600 text-white py-3"
+            >
+              Logout
+            </button>
+          ) : (
+            <Link
+              to="/login"
+              onClick={() => setMobileMenuOpen(false)}
+              className="
+              w-full
+              rounded-xl
+              bg-gradient-to-r
+              from-blue-600
+              to-blue-500
+              py-3
+              font-semibold
+              text-white
+              transition-all
+              duration-200
+              hover:shadow-lg
+              hover:shadow-blue-500/20
+              active:scale-95
+              "
+            >
+              Login
+            </Link>
+          )}
+
+        </div>
       </div>
     </nav>
   );
