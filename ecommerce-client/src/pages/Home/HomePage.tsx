@@ -57,11 +57,14 @@ function HomePage() {
   return (
     <MainLayout>
       {/* Top Categories Row (Flipkart-style Circular Navigation) */}
+      
       <div className="w-full bg-theme-card border border-theme rounded-md p-4 mb-6 shadow-sm overflow-x-auto scrollbar-none transition-colors duration-200">
         <div className="relative">
           <button
             onClick={() => scrollCategories("left")}
             className="
+              hidden
+              md:flex
               absolute
               left-2
               top-1/2
@@ -91,7 +94,8 @@ function HomePage() {
               justify-start
               md:justify-around
               items-center
-              gap-8
+              gap-5
+              md:gap-8
               px-12
               overflow-x-auto
               scroll-smooth
@@ -154,42 +158,140 @@ function HomePage() {
       </div>
 
       {/* Hero Banner Section */}
-      <section className="relative w-full bg-gradient-to-r from-[#2874F0] to-[#0047b3] dark:from-[#111e38] dark:to-[#0f172a] rounded-lg shadow-md overflow-hidden p-8 md:p-12 mb-8 text-white min-h-[300px] flex items-center transition-colors duration-200">
-        <div className="grid md:grid-cols-2 gap-8 items-center w-full z-10">
-          <div>
-            <span className="bg-[#FB641B] text-white text-[11px] font-bold tracking-widest px-2.5 py-1 rounded-sm uppercase inline-block mb-3.5 shadow-sm">
-              BIG SUMMER SALE
+    <section
+        className="
+            relative
+            overflow-hidden
+            rounded-3xl
+            min-h-[520px]
+            sm:min-h-[560px]
+            md:min-h-[480px]
+            lg:min-h-[560px]
+            mb-12
+            flex
+            items-center
+            bg-cover
+            bg-center
+            bg-no-repeat
+            border
+            border-blue-500/20
+            shadow-2xl
+            transition-all
+            duration-500
+            hover:shadow-blue-500/20
+            hover:shadow-2xl
+        "
+      >
+
+        <picture className="absolute inset-0 w-full h-full">
+
+            {/* Mobile */}
+
+            <source
+                media="(max-width:767px)"
+                srcSet="/images/mobile_hero_img.webp"
+            />
+
+            {/* Tablet */}
+
+            <source
+                media="(max-width:1023px)"
+                srcSet="/images/tablet_hero_img.webp"
+            />
+
+            {/* Desktop */}
+
+            <img
+                src="/images/desktop_hero_img.webp"
+                alt="Hero Background"
+                className="w-full h-full object-cover object-center"/>
+
+        </picture>
+        <div
+              className="
+                  absolute
+                  inset-0
+                  bg-gradient-to-r
+                  from-[#050b18]/95
+                  via-[#071224]/70
+                  to-transparent
+              "
+          />
+        {/* Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#050b18]/95 via-[#071224]/75 to-transparent" />
+
+        {/* Decorative glow */}
+        <div className="absolute -left-24 top-10 h-72 w-72 rounded-full bg-blue-600/20 blur-[120px]" />
+
+        {/* Content */}
+        <div className="relative z-10 max-w-2xl px-6 py-10 md:px-12">
+
+            <span className="inline-block rounded-full bg-orange-500 px-4 py-2 text-xs font-bold tracking-wider text-white uppercase shadow-lg">
+                BIG SUMMER SALE
             </span>
-            <h1 className="text-3xl md:text-5xl font-black tracking-tight leading-tight mb-4 font-outfit">
-              Elevate Your Lifestyle
+
+            <h1
+                className="
+                    mt-6
+                    text-4xl
+                    sm:text-5xl
+                    lg:text-7xl
+                    font-black
+                    leading-tight
+                    tracking-tight
+                    text-white
+                "
+            >
+                Elevate Your
+
+                <span className="block text-yellow-400">
+                    Lifestyle
+                </span>
             </h1>
-            <p className="text-sm md:text-base text-blue-100 dark:text-gray-300 mb-8 max-w-md">
-              Discover the latest high-performance mobiles, professional laptops, and cutting-edge accessories at best guaranteed prices.
+
+            <p
+                className="
+                    mt-6
+                    max-w-xl
+                    text-base
+                    md:text-lg
+                    leading-8
+                    text-slate-200
+                "
+            >
+                Discover the latest high-performance mobiles,
+                professional laptops, gaming accessories,
+                premium audio devices and cutting-edge technology
+                at unbeatable prices.
             </p>
-            <div className="flex flex-wrap gap-4">
-              <Button variant="accent" onClick={() => navigate("/products")} className="px-7 py-3 font-semibold shadow-md">
-                Shop Now
-              </Button>
-              <Button variant="secondary" onClick={() => navigate("/register")} className="px-7 py-3 font-semibold bg-white/10 hover:bg-white/20 text-white border-white/30">
-                Join ME10XLUXE
-              </Button>
+
+            <div
+                className="
+                    mt-10
+                    flex
+                    flex-col
+                    sm:flex-row
+                    gap-4
+                "
+            >
+
+                <Button
+                    onClick={() => navigate("/products")}
+                >
+                    Shop Now
+                </Button>
+
+                <Button
+                    variant="secondary"
+                    onClick={() => navigate("/register")}
+                >
+                    Join ME10XLUXE
+                </Button>
+
             </div>
-          </div>
-          
-          <div className="hidden md:flex justify-end select-none">
-            <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-tr from-blue-500/20 to-transparent blur-3xl rounded-full"></div>
-              <img
-                src="/promo_image.png"
-                alt="Featured products"
-                className="max-h-[280px] object-contain relative z-10 drop-shadow-2xl animate-float"
-                onError={(e) => {
-                  (e.target as HTMLElement).style.display = "none";
-                }}
-              />
-            </div>
-          </div>
+
         </div>
+
       </section>
 
       {/* Why Choose Us Section */}
@@ -201,7 +303,7 @@ function HomePage() {
           <div className="w-16 h-1 bg-[#2874F0] mx-auto mt-3 rounded-full"></div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2  lg:grid-cols-3 gap-6">
           <div className="bg-theme-card border border-theme p-6 rounded-lg text-center flex flex-col items-center shadow-sm hover:shadow-md transition-shadow duration-200">
             <div className="w-12 h-12 bg-blue-100 dark:bg-slate-800 rounded-full flex items-center justify-center text-xl text-[#2874F0] mb-4">
               <FaShippingFast />
@@ -258,7 +360,7 @@ function HomePage() {
           </button>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 justify-items-center">
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3  xl:grid-cols-4 gap-4 md:gap-6 justify-items-center">
           {products.length === 0 ? (
             <div className="col-span-full py-12 text-center text-theme-muted">
               Loading products...

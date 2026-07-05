@@ -11,8 +11,10 @@ import {
     FaMoon,
     FaBars,
     FaTimes,
+    FaHome,
     FaChevronRight,
     FaTruck,
+    FaCog,
     FaClipboardList
 } from "react-icons/fa";
 import { useState, useEffect } from "react";
@@ -25,7 +27,22 @@ function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const token = localStorage.getItem("token");
   const user = JSON.parse(localStorage.getItem("user") || "null");
-  const mobileMenuItem ="flex items-center justify-between rounded-xl px-4 py-3 transition-all duration-200 hover:bg-gray-100 dark:hover:bg-slate-800 active:scale-[0.98]";
+ const mobileMenuItem =
+`
+group
+flex
+items-center
+justify-between
+rounded-xl
+px-4
+py-3.5
+transition-all
+duration-200
+hover:bg-blue-50
+dark:hover:bg-slate-800
+hover:translate-x-1
+active:scale-[0.98]
+`;
 
   // State for dark mode theme
   const [isDark, setIsDark] = useState(() => {
@@ -277,42 +294,83 @@ function Navbar() {
         }`}
       >
         {/* Header */}
-        <div className="flex items-start justify-between px-6 py-5 border-b dark:border-[#24324f]">
-          <div>
-           <h2 className="text-2xl font-bold tracking-tight text-[#2874F0] dark:text-white">
-              ME10XLUXE
-          </h2>
+       <div className="border-b dark:border-slate-700 px-5 py-5">
 
-          <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
-              Premium Shopping
-          </p>
+          <div className="flex justify-between items-start">
+
+              <div className="flex items-center gap-4">
+
+                  <div className="w-14 h-14 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white shadow-lg">
+
+                      <FaUserCircle size={34}/>
+
+                  </div>
+
+                  <div>
+
+                      {token ? (
+                          <>
+                              <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+                                  {user?.name}
+                              </h2>
+
+                              <p className="text-sm text-gray-500 dark:text-gray-400">
+                                  {user?.role}
+                              </p>
+
+                              <p className="text-xs text-gray-400 truncate max-w-[170px]">
+                                  {user?.email}
+                              </p>
+                          </>
+                      ) : (
+                          <>
+                              <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+                                  Welcome Guest
+                              </h2>
+
+                              <p className="text-sm text-gray-500 dark:text-gray-400">
+                                  Sign in to enjoy shopping
+                              </p>
+                          </>
+                      )}
+
+                  </div>
+
+              </div>
+
+              <button
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="
+                      w-10
+                      h-10
+                      rounded-full
+                      bg-gray-100
+                      dark:bg-slate-800
+                      flex
+                      items-center
+                      justify-center
+                      hover:rotate-90
+                      transition
+                      duration-200
+                  "
+              >
+                  <FaTimes />
+              </button>
+
+          </div>
+          <div className="mt-auto pt-6 text-center">
+
+              <p className="text-xs text-gray-400">
+                  ME10XLUXE
+              </p>
+
+              <p className="text-[11px] text-gray-500">
+                  Version 1.0
+              </p>
+
           </div>
 
-            <button
-              onClick={() => setMobileMenuOpen(false)}
-              aria-label="Close menu"
-              className="
-                  flex
-                  items-center
-                  justify-center
-                  w-10
-                  h-10
-                  rounded-full
-                  bg-gray-100
-                  dark:bg-slate-800
-                  text-gray-700
-                  dark:text-gray-200
-                  transition-all
-                  duration-200
-                  hover:bg-gray-200
-                  dark:hover:bg-slate-700
-                  hover:rotate-90
-                  active:scale-95
-              "
-            >
-              <FaTimes size={18} />
-            </button>
-        </div>
+      </div>  
 
         {/* Navigation */}
         <div className="flex flex-col p-4 gap-2">
