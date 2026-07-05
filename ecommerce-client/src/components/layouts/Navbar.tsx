@@ -10,11 +10,9 @@ import {
     FaSun,
     FaMoon,
     FaBars,
-    FaTimes,
-    FaHome,
+    FaTimes,    
     FaChevronRight,
     FaTruck,
-    FaCog,
     FaClipboardList
 } from "react-icons/fa";
 import { useState, useEffect } from "react";
