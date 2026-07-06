@@ -10,9 +10,11 @@ import type { Product } from "../../types/Product";
 
 import { searchProducts } from "../../services/productService";
 import { getCategories } from "../../services/categoryService";
-import { FaFilter, FaSearch, FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { FaFilter, FaSearch, FaChevronLeft, FaChevronRight, FaTimes } from "react-icons/fa";
+
 
 function ProductsPage() {
+  const [showFilters, setShowFilters] = useState(false);
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [categories, setCategories] = useState<any[]>([]);
@@ -42,7 +44,7 @@ function ProductsPage() {
 
   useEffect(() => {
   setPageNumber(1);
-}, [selectedCategory, search, minPrice, maxPrice]);
+  }, [selectedCategory, search, minPrice, maxPrice]);
 
   useEffect(() => {
     const loadCategories = async () => {
@@ -58,13 +60,13 @@ function ProductsPage() {
 
  useEffect(() => {
   loadPagedProducts();
-}, [
-  pageNumber,
-  selectedCategory,
-  search,
-  minPrice,
-  maxPrice
-]);
+  }, [
+    pageNumber,
+    selectedCategory,
+    search,
+    minPrice,
+    maxPrice
+  ]);
   
   const loadPagedProducts = async () => {
     try {
@@ -118,7 +120,7 @@ function ProductsPage() {
       <div className="py-6 flex flex-col md:flex-row gap-6">
         
         {/* Left Sidebar Filter Section (Desktop) */}
-        <aside className="w-full md:w-[260px] shrink-0">
+        <aside className="hidden md:block md:w-[280px] shrink-0">
           <div className="bg-theme-card border border-theme rounded-md shadow-sm p-4 sticky top-[80px] transition-colors duration-200">
             <div className="flex items-center gap-2 border-b border-theme pb-3 mb-4 text-theme-primary font-bold">
               <FaFilter size={14} className="text-[#2874F0]" />
@@ -145,7 +147,7 @@ function ProductsPage() {
                   <button
                     key={category.id}
                     onClick={() => handleCategorySelect(String(category.id))}
-                    className={`text-left text-sm py-1.5 px-2.5 rounded-sm cursor-pointer transition-colors ${
+                    className={`text-left text-sm py-1.5 px-2.5 rounded-xl cursor-pointer transition-colors ${
                       String(selectedCategory) === String(category.id)
                         ? "bg-[#2874F0]/10 text-[#2874F0] font-bold"
                         : "text-theme-secondary hover:bg-gray-100 dark:hover:bg-slate-800"
@@ -289,12 +291,37 @@ function ProductsPage() {
             />
           </div>
 
+          <button
+            onClick={() => setShowFilters(true)}
+            className="
+              md:hidden
+              flex
+              items-center
+              gap-2
+              px-4
+              py-3
+              rounded-xl
+              bg-theme-card
+              border
+              border-theme
+              shadow-sm
+              hover:shadow-md
+              transition-all
+            "
+          >
+            <FaFilter />
+            <span>Filters</span>
+          </button>
+
             <input
               type="text"
               placeholder="Search catalog..."
               value={search}
               onChange={(e) => handleSearch(e.target.value)}
-              className="w-full !pl-10 pr-4 py-2 rounded-sm border-theme text-sm bg-white dark:bg-[#1e293b] text-gray-900 dark:text-white placeholder-gray-500"
+              className="w-full !pl-10 pr-4 py-3 rounded-xl border-theme text-sm bg-white dark:bg-[#1e293b] text-gray-900 dark:text-white placeholder-gray-500 focus:ring-2
+                  focus:ring-blue-500/30
+                  focus:border-blue-500
+                  transition-all"
             />
         </div>
             {/* Total Results Summary */}
@@ -351,8 +378,72 @@ function ProductsPage() {
           )}
         </div>
       </div>
+      {showFilters && (
+      <div
+        className="fixed inset-0 bg-black/60 z-40 md:hidden"
+        onClick={() => setShowFilters(false)}
+         />
+         )}
+
+         <div
+          className={`
+              fixed
+              top-0
+              left-0
+              h-full
+              w-[85vw]
+              max-w-[340px]
+              bg-theme-card
+              z-50
+              shadow-2xl
+              transition-transform
+              duration-300
+              md:hidden
+              ${
+                  showFilters
+                      ? "translate-x-0"
+                      : "-translate-x-full"
+              }
+          `}
+      >
+
+          <div className="flex items-center justify-between p-5 border-b border-theme">
+
+              <h2 className="text-xl font-bold">
+                  Filters
+              </h2>
+
+              <button
+                  onClick={() => setShowFilters(false)}
+                  className="
+                      w-10
+                      h-10
+                      rounded-full
+                      hover:bg-gray-200
+                      dark:hover:bg-slate-700
+                      flex
+                      items-center
+                      justify-center
+                  "
+              >
+                  <FaTimes />
+              </button>
+
+          </div>
+
+          <div className="p-4 overflow-y-auto h-[calc(100%-72px)]">
+
+              {/* We'll paste the filters here next */}
+
+          </div>
+
+      </div>
     </MainLayout>
+        
   );
+      
+      
+
 }
 
 export default ProductsPage;
